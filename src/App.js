@@ -75,12 +75,14 @@ const Convert = ({ text, language }) => {
         {
           params: {
             q: text,
+            key: 'AIzaSyDbtoK1kfDx3BZxJDkMfHDh-vXvWzwdhKo',
+            source: "en",
             target: language,
-            key: 'AIzaSyDbtoK1kfDx3BZxJDkMfHDh-vXvWzwdhKo'
           }
         }
       )
       .then((response) => {
+        console.log(response)
         setConvertedText(response.data.data.translations[0].translatedText);
       })
       .catch((err) => {
@@ -105,7 +107,7 @@ const Dictaphone = () => {
       <button onClick={resetTranscript}>Reset</button>
       <p className="text-from-speech">{transcript}</p> */}
       {/* <Recorder /> */}
-      <Convert text={["Hello world", "My name is Jeff"]} language="en" />
+      <Convert text="Hello world" language="fr" />
     </div>
   )
 }
