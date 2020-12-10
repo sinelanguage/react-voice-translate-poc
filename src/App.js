@@ -76,7 +76,7 @@ const Convert = ({ text, language }) => {
           params: {
             q: text,
             target: language,
-            key: 'AIzaSyCHUCmpR7cT_yDFHC98CZJy2LTms-IwDlM'
+            key: 'AIzaSyDbtoK1kfDx3BZxJDkMfHDh-vXvWzwdhKo'
           }
         }
       )
@@ -105,7 +105,7 @@ const Dictaphone = () => {
       <button onClick={resetTranscript}>Reset</button>
       <p className="text-from-speech">{transcript}</p> */}
       {/* <Recorder /> */}
-      <Convert />
+      <Convert text={["Hello world", "My name is Jeff"]} language="en" />
     </div>
   )
 }
