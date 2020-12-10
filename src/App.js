@@ -1,70 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import axios from 'axios';
-import MicRecorder from 'mic-recorder-to-mp3';
-import './App.css';
+import "./App.css";
 
-const Mp3Recorder = new MicRecorder({ bitRate: 128 });
-
-class Recorder extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      isRecording: false,
-      blobURL: '',
-      isBlocked: false,
-    };
-  }
-
-  start = () => {
-    if (this.state.isBlocked) {
-      console.log('Permission Denied');
-    } else {
-      Mp3Recorder
-        .start()
-        .then(() => {
-          this.setState({ isRecording: true });
-        }).catch((e) => console.error(e));
-    }
-  };
-
-  stop = () => {
-    Mp3Recorder
-      .stop()
-      .getMp3()
-      .then(([buffer, blob]) => {
-        const blobURL = URL.createObjectURL(blob)
-        this.setState({ blobURL, isRecording: false });
-      }).catch((e) => console.log(e));
-  };
-
-  componentDidMount() {
-    navigator.getUserMedia({ audio: true },
-      () => {
-        console.log('Permission Granted');
-        this.setState({ isBlocked: false });
-      },
-      () => {
-        console.log('Permission Denied');
-        this.setState({ isBlocked: true })
-      },
-    );
-  }
-
-  render(){
-    return (
-      <div className="App">
-        <header className="App-header">
-          <button onClick={this.start} disabled={this.state.isRecording}>Record</button>
-          <button onClick={this.stop} disabled={!this.state.isRecording}>Stop</button>
-          <audio src={this.state.blobURL} controls="controls" />
-        </header>
-      </div>
-    );
-  }
-}
-
-const Convert = ({ text, language }) => {
+const Convert = ({ text }) => {
   const [convertedText, setConvertedText] = useState('');
 
   useEffect(() => {
@@ -76,8 +15,8 @@ const Convert = ({ text, language }) => {
           params: {
             q: text,
             key: 'AIzaSyDbtoK1kfDx3BZxJDkMfHDh-vXvWzwdhKo',
-            source: "en",
-            target: language,
+            source: "fr",
+            target: "en",  
           }
         }
       )
@@ -88,12 +27,12 @@ const Convert = ({ text, language }) => {
       .catch((err) => {
         console.log('rest api error', err);
       });
-  }, [text, language]);
+  }, [text]);
 
   return <div>{convertedText}</div>;
 };
 
-const Dictaphone = () => {
+const App = () => {
   const { transcript, resetTranscript } = useSpeechRecognition()
 
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
@@ -102,13 +41,20 @@ const Dictaphone = () => {
 
   return (
     <div>
-      {/* <button onClick={SpeechRecognition.startListening}>Start</button>
+      <button onClick={SpeechRecognition.startListening}>Start</button>
       <button onClick={SpeechRecognition.stopListening}>Stop</button>
       <button onClick={resetTranscript}>Reset</button>
-      <p className="text-from-speech">{transcript}</p> */}
-      {/* <Recorder /> */}
-      <Convert text="Hello world" language="fr" />
+      <p>{transcript}</p>
+      <Convert text={transcript}/>
     </div>
   )
 }
-export default Dictaphone
+export default App
+
+
+/*
+1. We need the web to speech API (DICTOPHONE)
+2. Store the dictated text
+3. Send the dictated text to the GCP API
+4. Display the translated text
+*/
