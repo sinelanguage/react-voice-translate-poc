@@ -29,7 +29,7 @@ const Convert = ({ text }) => {
       });
   }, [text]);
 
-  return <p class="blue">{convertedText}</p>;
+  return <p className="blue">{convertedText}</p>;
 };
 
 const App = () => {
