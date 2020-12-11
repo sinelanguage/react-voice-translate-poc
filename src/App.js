@@ -7,7 +7,7 @@ const Convert = ({ text }) => {
   const [convertedText, setConvertedText] = useState('');
 
   useEffect(() => {
-    const response = axios
+    axios
       .post(
         'https://translation.googleapis.com/language/translate/v2',
         {},
@@ -29,7 +29,7 @@ const Convert = ({ text }) => {
       });
   }, [text]);
 
-  return <div>{convertedText}</div>;
+  return <p class="blue">{convertedText}</p>;
 };
 
 const App = () => {
@@ -40,11 +40,14 @@ const App = () => {
   }
 
   return (
-    <div>
-      <button onClick={SpeechRecognition.startListening}>Start</button>
+    <div className="App">
+      <button onClick={() => SpeechRecognition.startListening({
+        continuous: true,
+        language: 'fr-FR'
+      })}>Start</button>
       <button onClick={SpeechRecognition.stopListening}>Stop</button>
       <button onClick={resetTranscript}>Reset</button>
-      <p>{transcript}</p>
+      <p class="display-text">{transcript}</p>
       <Convert text={transcript}/>
     </div>
   )
