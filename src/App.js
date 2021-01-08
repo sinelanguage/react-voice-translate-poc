@@ -16,7 +16,7 @@ const Convert = ({ text }) => {
             q: text,
             key: 'AIzaSyDbtoK1kfDx3BZxJDkMfHDh-vXvWzwdhKo',
             source: "fr",
-            target: "en",  
+            target: "en",
           }
         }
       )
@@ -29,7 +29,11 @@ const Convert = ({ text }) => {
       });
   }, [text]);
 
-  return <p className="blue">{convertedText}</p>;
+  return (
+    <p className="translated">
+      {convertedText}
+      </p>
+  );
 };
 
 const App = () => {
@@ -41,14 +45,16 @@ const App = () => {
 
   return (
     <div className="App">
-      <button onClick={() => SpeechRecognition.startListening({
-        continuous: true,
-        language: 'fr-FR'
-      })}>Start listening to my voice</button>
-      <button onClick={SpeechRecognition.stopListening}>Stop listening to my voice</button>
-      <button onClick={resetTranscript}>Clear screen but i'm still listening</button>
-      <p class="display-text">{transcript}</p>
-      <Convert text={transcript}/>
+      <nav>
+        <button className="btn" onClick={() => SpeechRecognition.startListening({
+          continuous: true,
+          language: 'fr-FR'
+        })}>Start listening to my voice</button>
+        <button className="btn" onClick={SpeechRecognition.stopListening}>Stop listening to my voice</button>
+        <button className="btn" onClick={resetTranscript}>Clear text</button>
+      </nav>
+      <p className="display-text">{transcript}</p>
+      <Convert text={transcript} />
     </div>
   )
 }
