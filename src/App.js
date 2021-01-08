@@ -44,9 +44,9 @@ const App = () => {
       <button onClick={() => SpeechRecognition.startListening({
         continuous: true,
         language: 'fr-FR'
-      })}>Start</button>
-      <button onClick={SpeechRecognition.stopListening}>Stop Listening</button>
-      <button onClick={resetTranscript}>Reset</button>
+      })}>Start listening to my voice</button>
+      <button onClick={SpeechRecognition.stopListening}>Stop listening to my voice</button>
+      <button onClick={resetTranscript}>Clear screen but i'm still listening</button>
       <p class="display-text">{transcript}</p>
       <Convert text={transcript}/>
     </div>
