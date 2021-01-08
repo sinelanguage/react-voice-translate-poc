@@ -25,7 +25,7 @@ const Convert = ({ text }) => {
         setConvertedText(response.data.data.translations[0].translatedText);
       })
       .catch((err) => {
-        console.log('rest api error', err);
+        console.log('rest api error blah', err);
       });
   }, [text]);
 
@@ -45,7 +45,7 @@ const App = () => {
         continuous: true,
         language: 'fr-FR'
       })}>Start</button>
-      <button onClick={SpeechRecognition.stopListening}>Stop</button>
+      <button onClick={SpeechRecognition.stopListening}>Stop Listening</button>
       <button onClick={resetTranscript}>Reset</button>
       <p class="display-text">{transcript}</p>
       <Convert text={transcript}/>
