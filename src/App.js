@@ -34,8 +34,7 @@ const Convert = ({ text }) => {
   );
 };
 
-const Nav = () => {
-  const { resetTranscript } = useSpeechRecognition()
+const Nav = ({ resetTranscript, listening }) => {
   return (
     <nav>
       <button
@@ -48,16 +47,14 @@ const Nav = () => {
       </button>
       <button className="btn" onClick={SpeechRecognition.stopListening}>Stop listening</button>
       <button className="btn" onClick={resetTranscript}>Clear text</button>
-      <MicIsListeningText />
+      <MicIsListeningText listening={listening} />
     </nav>
   )
 }
 
-const DictatedAndTranslatedText = () => {
+const DictatedAndTranslatedText = ({ transcript }) => {
 
-  const { transcript } = useSpeechRecognition();
-
-  return(
+  return (
     <div>
       <p className="display-text">{transcript}</p>
       <Convert text={transcript} />
@@ -65,8 +62,7 @@ const DictatedAndTranslatedText = () => {
   )
 }
 
-const MicIsListeningText = () => {
-  const { listening } = useSpeechRecognition();
+const MicIsListeningText = ({ listening }) => {
   return (
     listening &&
     (
@@ -80,14 +76,16 @@ const MicIsListeningText = () => {
 
 const App = () => {
 
+  const { listening, transcript, resetTranscript } = useSpeechRecognition();
+
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
     return null
   }
 
   return (
     <div className="App">
-      <Nav />
-      <DictatedAndTranslatedText />
+      <Nav listening={listening} resetTranscript={resetTranscript} />
+      <DictatedAndTranslatedText transcript={transcript} />
     </div>
   )
 }
