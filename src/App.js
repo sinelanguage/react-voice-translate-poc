@@ -67,7 +67,7 @@ const MicIsListeningText = ({ listening }) => {
     listening &&
     (
       <div className="listening-text-wrapper">
-        <img className="icon" src="./mic_black_192x192.png" />
+        <img alt="mic icon" className="icon" src="./mic_black_192x192.png" />
         <p className="listening-text">listening</p>
       </div>
     )
