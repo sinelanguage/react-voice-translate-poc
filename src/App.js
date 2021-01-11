@@ -79,7 +79,7 @@ const App = () => {
   const { listening, transcript, resetTranscript } = useSpeechRecognition();
 
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
-    return null
+    return <p className="not-supported">Web to speech API not supported</p>
   }
 
   return (
