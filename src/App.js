@@ -15,8 +15,8 @@ const Convert = ({ text }) => {
           params: {
             q: text,
             key: 'AIzaSyDbtoK1kfDx3BZxJDkMfHDh-vXvWzwdhKo',
-            source: "fr",
-            target: "en",
+            source: "en",
+            target: "fr",
           }
         }
       )
@@ -30,7 +30,7 @@ const Convert = ({ text }) => {
   }, [text]);
 
   return (
-    <p className="translated-text">{convertedText}</p>
+    <p className="translated-text"><span className="placeholder-text">french:</span> {convertedText}</p>
   );
 };
 
@@ -41,7 +41,7 @@ const Nav = ({ resetTranscript, listening }) => {
         className="btn"
         onClick={() => SpeechRecognition.startListening({
           continuous: false,
-          language: 'fr-FR'
+          language: 'en-EN'
         })}>
         Start listening
       </button>
@@ -56,7 +56,7 @@ const DictatedAndTranslatedText = ({ transcript }) => {
 
   return (
     <div>
-      <p className="display-text">{transcript}</p>
+      <p className="display-text"><span className="placeholder-text">english:</span> {transcript}</p>
       <Convert text={transcript} />
     </div>
   )

@@ -102,3 +102,7 @@ nav {
   font-size: 30px;
   text-align: center;
 }
+
+.placeholder-text {
+  color: rgb(178,178,178);
+}
