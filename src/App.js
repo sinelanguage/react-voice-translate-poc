@@ -30,14 +30,55 @@ const Convert = ({ text }) => {
   }, [text]);
 
   return (
-    <p className="translated">
-      {convertedText}
-      </p>
+    <p className="translated-text">{convertedText}</p>
   );
 };
 
+const Nav = () => {
+  const { resetTranscript } = useSpeechRecognition()
+  return (
+    <nav>
+      <button
+        className="btn"
+        onClick={() => SpeechRecognition.startListening({
+          continuous: false,
+          language: 'fr-FR'
+        })}>
+        Start listening
+      </button>
+      <button className="btn" onClick={SpeechRecognition.stopListening}>Stop listening</button>
+      <button className="btn" onClick={resetTranscript}>Clear text</button>
+      <MicIsListeningText />
+    </nav>
+  )
+}
+
+const DictatedAndTranslatedText = () => {
+
+  const { transcript } = useSpeechRecognition();
+
+  return(
+    <div>
+      <p className="display-text">{transcript}</p>
+      <Convert text={transcript} />
+    </div>
+  )
+}
+
+const MicIsListeningText = () => {
+  const { listening } = useSpeechRecognition();
+  return (
+    listening &&
+    (
+      <div className="listening-text-wrapper">
+        <img className="icon" src="./mic_black_192x192.png" />
+        <p className="listening-text">listening</p>
+      </div>
+    )
+  );
+}
+
 const App = () => {
-  const { transcript, resetTranscript } = useSpeechRecognition()
 
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
     return null
@@ -45,16 +86,8 @@ const App = () => {
 
   return (
     <div className="App">
-      <nav>
-        <button className="btn" onClick={() => SpeechRecognition.startListening({
-          continuous: true,
-          language: 'fr-FR'
-        })}>Start listening to my voice</button>
-        <button className="btn" onClick={SpeechRecognition.stopListening}>Stop listening to my voice</button>
-        <button className="btn" onClick={resetTranscript}>Clear text</button>
-      </nav>
-      <p className="display-text">{transcript}</p>
-      <Convert text={transcript} />
+      <Nav />
+      <DictatedAndTranslatedText />
     </div>
   )
 }
