@@ -3,8 +3,8 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import axios from 'axios';
 import "./App.css";
 
-const Convert = ({ text }) => {
-  
+const TranslatedText = ({ text }) => {
+
   const [convertedText, setConvertedText] = useState('');
 
   useEffect(() => {
@@ -58,11 +58,8 @@ const Nav = ({ resetTranscript, listening }) => (
   </nav>
 )
 
-const DictatedAndTranslatedText = ({ transcript }) => (
-  <div>
-    <p className="display-text"><span className="placeholder-text">english:</span> {transcript}</p>
-    <Convert text={transcript} />
-  </div>
+const DictatedText = ({ transcript }) => (
+  <p className="display-text"><span className="placeholder-text">english:</span> {transcript}</p>
 )
 
 const MicIsListeningText = ({ listening }) => {
@@ -89,7 +86,8 @@ const App = () => {
     <div className="App">
       <Instructions />
       <Nav listening={listening} resetTranscript={resetTranscript} />
-      <DictatedAndTranslatedText transcript={transcript} />
+      <DictatedText transcript={transcript} />
+      <TranslatedText text={transcript} />
     </div>
   )
 }
