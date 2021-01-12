@@ -8,7 +8,7 @@ const TranslatedText = ({ text }) => {
   const [convertedText, setConvertedText] = useState('');
 
   useEffect(() => {
-    axios
+    text.length && axios
       .post(
         'https://translation.googleapis.com/language/translate/v2',
         {},
@@ -32,7 +32,7 @@ const TranslatedText = ({ text }) => {
   }, [text]);
 
   return (
-    <p className="translated-text"><span className="placeholder-text">french:</span> {convertedText}</p>
+    <p className="translated-text"><span className="placeholder-text">french:</span> {text.length ? convertedText: null}</p>
   );
 };
 
