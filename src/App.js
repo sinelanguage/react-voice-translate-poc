@@ -75,17 +75,19 @@ const MicIsListeningText = ({ listening }) => {
   );
 }
 
+const NotSupported = () => (
+  <p className="not-supported">
+    Web to speech API not supported.<br />
+    Please demo this app using Google Chrome.
+  </p>
+)
+
 const App = () => {
 
   const { listening, transcript, resetTranscript } = useSpeechRecognition();
 
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
-    return (
-      <p className="not-supported">
-        Web to speech API not supported.<br />
-        Please demo this app using Google Chrome.
-      </p>
-    )
+    return (<NotSupported />)
   }
 
   return (
