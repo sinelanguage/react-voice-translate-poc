@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import axios from 'axios';
 import "./App.css";
@@ -33,6 +33,13 @@ const Convert = ({ text }) => {
     <p className="translated-text"><span className="placeholder-text">french:</span> {convertedText}</p>
   );
 };
+
+const Instructions = () => (
+  <p className="instructions">
+    Press the 'Start Listening' button, wait until the listening icon appears and speak english into your mic.<br />
+    When the listening icon disappears, the app is no longer listening.
+  </p>
+)
 
 const Nav = ({ resetTranscript, listening }) => {
   return (
@@ -84,6 +91,7 @@ const App = () => {
 
   return (
     <div className="App">
+      <Instructions />
       <Nav listening={listening} resetTranscript={resetTranscript} />
       <DictatedAndTranslatedText transcript={transcript} />
     </div>
