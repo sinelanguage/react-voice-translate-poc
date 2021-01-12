@@ -4,6 +4,7 @@ import axios from 'axios';
 import "./App.css";
 
 const Convert = ({ text }) => {
+  
   const [convertedText, setConvertedText] = useState('');
 
   useEffect(() => {
@@ -41,33 +42,28 @@ const Instructions = () => (
   </p>
 )
 
-const Nav = ({ resetTranscript, listening }) => {
-  return (
-    <nav>
-      <button
-        className="btn"
-        onClick={() => SpeechRecognition.startListening({
-          continuous: false,
-          language: 'en-EN'
-        })}>
-        Start listening
-      </button>
-      <button className="btn" onClick={SpeechRecognition.stopListening}>Stop listening</button>
-      <button className="btn" onClick={resetTranscript}>Clear text</button>
-      <MicIsListeningText listening={listening} />
-    </nav>
-  )
-}
+const Nav = ({ resetTranscript, listening }) => (
+  <nav>
+    <button
+      className="btn"
+      onClick={() => SpeechRecognition.startListening({
+        continuous: false,
+        language: 'en-EN'
+      })}>
+      Start listening
+    </button>
+    <button className="btn" onClick={SpeechRecognition.stopListening}>Stop listening</button>
+    <button className="btn" onClick={resetTranscript}>Clear text</button>
+    <MicIsListeningText listening={listening} />
+  </nav>
+)
 
-const DictatedAndTranslatedText = ({ transcript }) => {
-
-  return (
-    <div>
-      <p className="display-text"><span className="placeholder-text">english:</span> {transcript}</p>
-      <Convert text={transcript} />
-    </div>
-  )
-}
+const DictatedAndTranslatedText = ({ transcript }) => (
+  <div>
+    <p className="display-text"><span className="placeholder-text">english:</span> {transcript}</p>
+    <Convert text={transcript} />
+  </div>
+)
 
 const MicIsListeningText = ({ listening }) => {
   return (
@@ -98,11 +94,3 @@ const App = () => {
   )
 }
 export default App
-
-
-/*
-1. We need the web to speech API (DICTOPHONE)
-2. Store the dictated text
-3. Send the dictated text to the GCP API
-4. Display the translated text
-*/
