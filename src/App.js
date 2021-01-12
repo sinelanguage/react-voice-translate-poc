@@ -18,6 +18,7 @@ const TranslatedText = ({ text }) => {
             key: 'AIzaSyDbtoK1kfDx3BZxJDkMfHDh-vXvWzwdhKo',
             source: "en",
             target: "fr",
+            format: "text"
           }
         }
       )
