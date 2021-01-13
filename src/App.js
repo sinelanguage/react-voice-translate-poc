@@ -32,7 +32,9 @@ const TranslatedText = ({ text }) => {
   }, [text]);
 
   return (
-    <p className="translated-text"><span className="placeholder-text">french:</span> {text.length ? convertedText: null}</p>
+    <p className="translated-text"><span className="placeholder-text">
+      french:</span> {text.length ? convertedText : null}
+    </p>
   );
 };
 
