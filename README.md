@@ -2,6 +2,8 @@
 
 A modernized voice-to-translation demo built with React, Vite, and a small Express translation API.
 
+![Voice Translate demo running locally](docs/app-screenshot.png)
+
 ## What changed
 
 - Removed the hardcoded Google Translate API key from client code.
