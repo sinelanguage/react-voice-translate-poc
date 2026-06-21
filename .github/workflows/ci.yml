@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Scan for hardcoded secrets
+        run: |
+          if rg \
+            --glob '!node_modules/**' \
+            --glob '!package-lock.json' \
+            --glob '!.env.example' \
+            --glob '!README.md' \
+            -n \
+            'AIza[0-9A-Za-z\-_]{35}|sk-[A-Za-z0-9]{20,}' \
+            .; then
+            echo "Potential hardcoded secret detected."
+            exit 1
+          fi
