@@ -1,70 +1,73 @@
-# Getting Started with Create React App
+# React Voice Translate POC
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modernized voice-to-translation demo built with React, Vite, and a small Express translation API.
 
-## Available Scripts
+## What changed
 
-In the project directory, you can run:
+- Removed the hardcoded Google Translate API key from client code.
+- Added a server-side `/api/translate` endpoint that reads credentials from environment variables.
+- Migrated the frontend from Create React App to Vite.
+- Replaced boilerplate tests with frontend and API behavior tests.
+- Added ESLint, CI, and a simple secret scanning check.
 
-### `npm start`
+## Architecture
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- `src/` contains the React client.
+- `server/` contains the Express API that proxies translation requests.
+- `public/` contains static assets served by Vite.
+- `.github/workflows/ci.yml` runs lint, test, build, and secret checks.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The browser only sends transcript text to `/api/translate`. The server owns the Google API key and calls the Google Translate API.
 
-### `npm test`
+## Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js 20 or newer
+- A Google Translate API key with access to the Cloud Translation API
 
-### `npm run build`
+## Environment variables
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Copy `/home/runner/work/react-voice-translate-poc/react-voice-translate-poc/.env.example` to `/home/runner/work/react-voice-translate-poc/react-voice-translate-poc/.env` and set:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- `GOOGLE_TRANSLATE_API_KEY` - required, server-side only
+- `PORT` - optional, defaults to `3001`
+- `TRANSLATION_RATE_LIMIT` - optional requests per minute, defaults to `30`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Never commit real secrets. The previously committed browser key should be rotated in Google Cloud because it must be treated as exposed.
 
-### `npm run eject`
+## Local development
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+npm install
+npm run dev
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Vite runs the client on `http://localhost:5173`
+- Express runs the API on `http://localhost:3001`
+- Vite proxies `/api/*` requests to the API server
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Production build
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+`npm start` serves the built frontend from `dist/` and exposes the API from the same server.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Quality checks
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm run lint
+npm test
+npm run build
+```
 
-### Code Splitting
+## Security notes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Keep translation credentials only in deployment secrets or local `.env` files.
+- The API validates input length and applies rate limiting.
+- CI scans for common hardcoded secret patterns before merging.
 
-### Analyzing the Bundle Size
+## Browser support
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Speech recognition support depends on the browser Web Speech API implementation. Chrome-family browsers provide the best support for this demo.
